@@ -10,11 +10,11 @@ A full-stack application that allows users to search for music using the Spotify
 * MongoDB Atlas Account (for Mongoose integration)
 
 ## Getting Started
-1. Clone the repo: `git clone [Your Repo URL]`
+1. Clone the repo: `git clone https://github.com/biesboerTerry-FS/projectPortfolioThree#`
 2. Install dependencies: `npm install`
 3. Create a `.env` file (see .env.example)
 4. Start the server: `node index.js`
 
 ## Links
-* Local Backend: http://localhost:3001/api/status
-* Spotify API Docs: [Developer Link]
+* Local Backend: http://127.0.0.1:3001
+* Spotify API Docs: https://developer.spotify.com/
