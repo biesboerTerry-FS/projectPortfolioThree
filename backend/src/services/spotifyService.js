@@ -117,7 +117,7 @@ async function getSpotifyDetail(accessToken, type, id) {
         tracks: (album.tracks?.items || []).map((track) => ({
           id: track.id,
           title: track.name,
-          artist: track.artists?.map((artist) => artist.name).join(', '),
+          artist: (track.artists || []).map((artist) => artist.name).join(', '),
           artists: track.artists?.map((artist) => ({ id: artist.id, name: artist.name })) || [],
           album: album.name,
           albumId: album.id,
