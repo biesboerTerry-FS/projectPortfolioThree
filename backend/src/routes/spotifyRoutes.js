@@ -2,11 +2,11 @@ const express = require('express');
 const { authenticateJwt } = require('../auth');
 const { requireSpotifyAuthorization } = require('../middleware/spotifyAuth');
 const {
-	playerToken,
-	favorites,
-	details,
-	play,
-	pause,
+  playerToken,
+  favorites,
+  details,
+  play,
+  pause,
 } = require('../controllers/spotifyController');
 const { search } = require('../controllers/searchController');
 
