@@ -14,7 +14,7 @@ function mapTrack(track) {
     id: track.id,
     title: track.name,
     href: track.href || null,
-    artist: track.artists?.map((artist) => artist.name).join(', '),
+    artist: (track.artists?.map((artist) => artist.name) || []).join(', '),
     album: track.album?.name,
     albumId: track.album?.id || null,
     releaseDate: track.album?.release_date || null,
