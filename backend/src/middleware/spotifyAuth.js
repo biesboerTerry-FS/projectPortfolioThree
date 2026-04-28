@@ -70,15 +70,19 @@ function validateSpotifyOauthState(request, response, next) {
   const queryState = String(request.query.state || '');
   const storedState = cookies[SPOTIFY_STATE_COOKIE] || '';
   const storedStateExpiresAt = spotifyStateStore.get(queryState) || 0;
-  const hasValidServerState = storedStateExpiresAt > Date.now();
-  const hasValidCookieState = Boolean(queryState && storedState && queryState === storedState);
+  const isValidState = Boolean(
+    queryState &&
+    storedState &&
+    queryState === storedState &&
+    storedStateExpiresAt > Date.now()
+  );
 
   clearStateCookie(response);
   if (queryState) {
     spotifyStateStore.delete(queryState);
   }
 
-  if (!queryState || (!hasValidCookieState && !hasValidServerState)) {
+  if (!isValidState) {
     return response.status(400).json({ error: 'Invalid Spotify OAuth state' });
   }
 
