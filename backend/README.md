@@ -60,7 +60,7 @@
   - player token
   - favorites (saved tracks)
   - search (results + no-results)
-- Added `.postman/collection.json` as a ready-to-import collection.
+- Use `backend/requests.http` as the ready-to-run API request collection in VS Code REST Client.
 - Jest and related test files were removed so VS Code REST Client is the single API testing workflow.
 
 ## Environment Variables
