@@ -1,0 +1,109 @@
+{
+  "info": {
+    "_postman_id": "b8b3b878-0b9c-4e8f-a93f-4d8f766445f1",
+    "name": "Music Search Portfolio API v42",
+    "description": "Spotify OAuth, auth, playback, favorites, and search routes.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    { "key": "baseUrl", "value": "http://127.0.0.1:3001" },
+    { "key": "apiPrefix", "value": "/api/v42" },
+    { "key": "jwt", "value": "" }
+  ],
+  "item": [
+    {
+      "name": "Root Health",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "{{baseUrl}}/"
+      }
+    },
+    {
+      "name": "API Status",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "{{baseUrl}}{{apiPrefix}}/status"
+      }
+    },
+    {
+      "name": "Spotify Login Redirect",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "{{baseUrl}}{{apiPrefix}}/auth/spotify/login"
+      }
+    },
+    {
+      "name": "Auth Session Status",
+      "request": {
+        "method": "GET",
+        "header": [
+          { "key": "Authorization", "value": "Bearer {{jwt}}", "type": "text" }
+        ],
+        "url": "{{baseUrl}}{{apiPrefix}}/auth/session-status"
+      }
+    },
+    {
+      "name": "Auth Me",
+      "request": {
+        "method": "GET",
+        "header": [
+          { "key": "Authorization", "value": "Bearer {{jwt}}", "type": "text" }
+        ],
+        "url": "{{baseUrl}}{{apiPrefix}}/auth/me"
+      }
+    },
+    {
+      "name": "Player Token",
+      "request": {
+        "method": "GET",
+        "header": [
+          { "key": "Authorization", "value": "Bearer {{jwt}}", "type": "text" }
+        ],
+        "url": "{{baseUrl}}{{apiPrefix}}/spotify/player-token"
+      }
+    },
+    {
+      "name": "Refresh Spotify Access Token",
+      "request": {
+        "method": "POST",
+        "header": [
+          { "key": "Authorization", "value": "Bearer {{jwt}}", "type": "text" }
+        ],
+        "url": "{{baseUrl}}{{apiPrefix}}/auth/refresh"
+      }
+    },
+    {
+      "name": "Spotify Favorites (Saved Tracks)",
+      "request": {
+        "method": "GET",
+        "header": [
+          { "key": "Authorization", "value": "Bearer {{jwt}}", "type": "text" }
+        ],
+        "url": "{{baseUrl}}{{apiPrefix}}/spotify/favorites?limit=10"
+      }
+    },
+    {
+      "name": "Search Tracks",
+      "request": {
+        "method": "GET",
+        "header": [
+          { "key": "Authorization", "value": "Bearer {{jwt}}", "type": "text" }
+        ],
+        "url": "{{baseUrl}}{{apiPrefix}}/search?q=daft%20punk&type=track&limit=10"
+      }
+    },
+    {
+      "name": "Search No Results",
+      "request": {
+        "method": "GET",
+        "header": [
+          { "key": "Authorization", "value": "Bearer {{jwt}}", "type": "text" }
+        ],
+        "url": "{{baseUrl}}{{apiPrefix}}/search?q=zzzzzzzzzzzzzzzzzzzz&type=track&limit=5"
+      }
+    }
+  ]
+}
