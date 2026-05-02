@@ -86,7 +86,7 @@ function Login({ onSpotifyLogin }) {
       </div>
 
       <footer className="login-footer">
-        <p>&copy; {new Date().getFullYear()} spotify at midnight | Not affiliated with Spotify</p>
+        <p>&copy; {new Date().getFullYear()} spotify at midnight | Not affiliated with Spotify | &copy; thatDevTerry</p>
       </footer>
     </div>
   );

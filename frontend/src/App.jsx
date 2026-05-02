@@ -1401,8 +1401,9 @@ function AppContent({ jwtToken, setJwtToken }) {
         </main>
 
         <footer className="app-footer">
-          <        <p>&copy; {new Date().getFullYear()} spotify at midnight | Not affiliated with Spotify | &copy; thatDevTerry</p>
-
+          <p>
+            &copy; {new Date().getFullYear()} spotify at midnight | Not affiliated with Spotify | thatDevTerry
+          </p>
         </footer>
       </div>
 
