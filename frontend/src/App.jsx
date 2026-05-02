@@ -50,6 +50,14 @@ function PlaybackIcon({ isPlaying }) {
   );
 }
 
+function QueuePlayGlyph({ className }) {
+  return (
+    <svg className={className} viewBox="0 0 24 24" aria-hidden="true" width="12" height="12">
+      <path d="M8 6v12l10-6z" fill="currentColor" />
+    </svg>
+  );
+}
+
 function PreviousIcon() {
   return (
     <svg className="transport-icon transport-icon-previous" viewBox="0 0 24 24" aria-hidden="true">
@@ -72,10 +80,8 @@ function RepeatIcon({ mode }) {
   return (
     <svg className={`transport-icon repeat-icon repeat-${mode}`} viewBox="0 0 24 24" aria-hidden="true">
       <g fill="currentColor" fillRule="evenodd">
-        {/* Repeat arrows */}
         <path d="M7 7h10v2l4-3-4-3v2H5v6h2V7zm10 10H7v-2l-4 3 4 3v-2h12v-6h-2v4z" />
       </g>
-      {/* Indicator for repeat mode */}
       {mode === 'one' && (
         <circle cx="18" cy="18" r="5" fill="currentColor" opacity="0.8" />
       )}
@@ -86,11 +92,8 @@ function RepeatIcon({ mode }) {
 function ShuffleIcon() {
   return (
     <svg className="transport-icon shuffle-icon" viewBox="0 0 24 24" aria-hidden="true">
-      {/* Top-left to bottom-right arrow */}
       <path d="M3 8h14v2H5l3 3-1.41 1.41L2.59 9 6.59 5 8 6.41 5 9.41V8z" fill="currentColor" />
-      {/* Bottom-left to top-right arrow */}
       <path d="M21 16H7v-2h12l-3-3 1.41-1.41L21.41 15l-4 4-1.41-1.41L20 16.59V16z" fill="currentColor" />
-      {/* Right side accent point */}
       <circle cx="20" cy="5" r="1.5" fill="currentColor" opacity="0.6" />
       <circle cx="4" cy="19" r="1.5" fill="currentColor" opacity="0.6" />
     </svg>
@@ -278,7 +281,7 @@ function AppContent({ jwtToken, setJwtToken }) {
     albums: [],
   });
   const [manualPlaybackQueue, setManualPlaybackQueue] = useState([]);
-  const [repeatMode, setRepeatMode] = useState('off'); // 'off', 'one', 'all'
+  const [repeatMode, setRepeatMode] = useState('off');
   const [isShuffled, setIsShuffled] = useState(false);
   const [isQueueOpen, setIsQueueOpen] = useState(false);
   const previewAudioRef = useRef(null);
@@ -841,8 +844,7 @@ function AppContent({ jwtToken, setJwtToken }) {
 
   const playNext = useCallback(() => {
     if (playbackQueue.length === 0) return;
-    
-    // Handle repeat one
+
     if (repeatMode === 'one') {
       if (nowPlaying?.id) {
         togglePreviewPlayback(nowPlaying, { preserveQueue: true });
@@ -851,7 +853,6 @@ function AppContent({ jwtToken, setJwtToken }) {
     }
     
     if (currentQueueIndex < 0 || currentQueueIndex >= playbackQueue.length - 1) {
-      // If repeat all is on, loop back to beginning
       if (repeatMode === 'all') {
         playQueueItemAt(0);
       }
@@ -870,11 +871,9 @@ function AppContent({ jwtToken, setJwtToken }) {
   const toggleShuffle = useCallback(() => {
     setIsShuffled(!isShuffled);
     if (!isShuffled && playbackQueue.length > 0) {
-      // Shuffle the queue and set as manual queue
       const shuffled = shuffleArray(playbackQueue);
       setManualPlaybackQueue(shuffled);
     } else {
-      // Return to original queue
       setManualPlaybackQueue([]);
     }
   }, [isShuffled, playbackQueue]);
@@ -1166,7 +1165,11 @@ function AppContent({ jwtToken, setJwtToken }) {
                       <span className="queue-index">{index + 1}</span>
                       <div className="queue-item-info">
                         <div className="queue-item-title">
-                          {index === currentQueueIndex && <span className="playing-badge">▶</span>}
+                          {index === currentQueueIndex && (
+                            <span className="playing-badge" aria-hidden="true">
+                              <QueuePlayGlyph />
+                            </span>
+                          )}
                           {item.title || item.name}
                         </div>
                         <div className="queue-item-artist">{item.artist || item.album || 'Unknown'}</div>
@@ -1177,7 +1180,7 @@ function AppContent({ jwtToken, setJwtToken }) {
                         onClick={() => playQueueItemAt(index)}
                         title="Play this track"
                       >
-                        ▶
+                        <QueuePlayGlyph />
                       </button>
                     </div>
                   ))}
@@ -1651,7 +1654,6 @@ function App() {
     const token = tokenFromUrl || localToken || '';
     if (tokenFromUrl) {
       localStorage.setItem('auth_jwt', tokenFromUrl);
-      // Clean up the URL to remove the token query parameter
       const params = new URLSearchParams(window.location.search);
       params.delete('token');
       const query = params.toString();
@@ -1660,7 +1662,6 @@ function App() {
     return token;
   });
 
-  // Redirect from /login to home if already authenticated
   if (jwtToken && window.location.pathname === '/login') {
     return <Navigate to="/" replace />;
   }

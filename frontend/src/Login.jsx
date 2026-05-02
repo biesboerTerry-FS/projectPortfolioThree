@@ -19,7 +19,6 @@ function Login({ onSpotifyLogin }) {
     if (onSpotifyLogin) {
       onSpotifyLogin();
     } else {
-      // Redirect to backend OAuth endpoint
       window.location.href = `${BACKEND_URL}${API_PREFIX}/auth/spotify/login`;
     }
   };
@@ -66,19 +65,19 @@ function Login({ onSpotifyLogin }) {
           <h2 className="login-features-title">Features</h2>
           <ul className="login-features-list">
             <li>
-              <span className="feature-icon">🔍</span>
+              <span className="feature-icon" aria-hidden="true" />
               <span>Search songs, artists, and albums</span>
             </li>
             <li>
-              <span className="feature-icon">♥️</span>
+              <span className="feature-icon" aria-hidden="true" />
               <span>Browse your saved tracks</span>
             </li>
             <li>
-              <span className="feature-icon">🎵</span>
+              <span className="feature-icon" aria-hidden="true" />
               <span>Play music directly from the app</span>
             </li>
             <li>
-              <span className="feature-icon">✨</span>
+              <span className="feature-icon" aria-hidden="true" />
               <span>Discover artists from your library</span>
             </li>
           </ul>

@@ -2,44 +2,49 @@
 @apiPrefix = /api/v42
 @jwt = REPLACE_WITH_JWT
 
-### STEP 0: Server root check
+###
+
 GET {{baseUrl}}/
 
-### STEP 1: API health check
+###
+
 GET {{baseUrl}}{{apiPrefix}}/status
 
-### STEP 2A: Start Spotify OAuth (open URL in browser)
+###
+
 GET {{baseUrl}}{{apiPrefix}}/auth/spotify/login
 
-### STEP 3A: Complete Spotify login in the browser.
-### The callback now requires OAuth state validation, so do not call it directly from REST Client.
-### After the browser redirect completes, paste the JWT from the frontend URL into @jwt above.
+###
 
-### STEP 4: Authenticated profile check
 GET {{baseUrl}}{{apiPrefix}}/auth/me
 Authorization: Bearer {{jwt}}
 
-### STEP 5: Session status (returns true/false style auth state)
+###
+
 GET {{baseUrl}}{{apiPrefix}}/auth/session-status
 Authorization: Bearer {{jwt}}
 
-### STEP 6: Refresh Spotify access token through the backend
+###
+
 POST {{baseUrl}}{{apiPrefix}}/auth/refresh
 Authorization: Bearer {{jwt}}
 
-### STEP 7: Spotify Web Playback token
-### Requires user to have Spotify connected (login via Step 3A at least once).
+###
+
 GET {{baseUrl}}{{apiPrefix}}/spotify/player-token
 Authorization: Bearer {{jwt}}
 
-### STEP 8: Fetch Spotify favorites (saved tracks)
+###
+
 GET {{baseUrl}}{{apiPrefix}}/spotify/favorites?limit=10
 Authorization: Bearer {{jwt}}
 
-### STEP 9: Search Spotify (expected results)
+###
+
 GET {{baseUrl}}{{apiPrefix}}/search?q=daft%20punk&type=track&limit=10
 Authorization: Bearer {{jwt}}
 
-### STEP 10: Search Spotify (expected no results contract)
+###
+
 GET {{baseUrl}}{{apiPrefix}}/search?q=zzzzzzzzzzzzzzzzzzzz&type=track&limit=5
 Authorization: Bearer {{jwt}}

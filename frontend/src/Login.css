@@ -1,4 +1,4 @@
-/* Login Container */
+
 .login-container {
   display: flex;
   flex-direction: column;
@@ -13,7 +13,6 @@
   overflow: hidden;
 }
 
-/* Decorative background elements */
 .login-container::before {
   content: '';
   position: absolute;
@@ -40,7 +39,6 @@
   z-index: 0;
 }
 
-/* Login Content */
 .login-content {
   position: relative;
   z-index: 1;
@@ -54,7 +52,6 @@
   backdrop-filter: blur(10px);
 }
 
-/* Login Header */
 .login-header {
   text-align: center;
   margin-bottom: 2.5rem;
@@ -104,7 +101,6 @@
   letter-spacing: 0.02em;
 }
 
-/* Login Body */
 .login-body {
   margin-bottom: 2.5rem;
 }
@@ -117,7 +113,6 @@
   text-align: center;
 }
 
-/* Spotify Auth Button */
 .btn-spotify-auth {
   width: 100%;
   display: flex;
@@ -162,7 +157,6 @@
   line-height: 1.5;
 }
 
-/* Login Features */
 .login-features {
   padding-top: 2rem;
   border-top: 1px solid rgba(29, 185, 84, 0.1);
@@ -193,12 +187,15 @@
 }
 
 .feature-icon {
-  font-size: 1.3rem;
-  min-width: 1.5rem;
-  text-align: center;
+  display: inline-block;
+  min-width: 0.5rem;
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 50%;
+  background: #1db954;
+  flex-shrink: 0;
 }
 
-/* Login Footer */
 .login-footer {
   position: relative;
   z-index: 1;
@@ -212,7 +209,6 @@
   margin: 0;
 }
 
-/* Responsive Design */
 @media (max-width: 600px) {
   .login-content {
     padding: 2rem 1.5rem;

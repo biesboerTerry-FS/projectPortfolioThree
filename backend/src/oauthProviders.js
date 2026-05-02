@@ -118,8 +118,6 @@ async function fetchSpotifyArtistDetail(accessToken, id) {
   const artistResponse = await axios.get(`${SPOTIFY_ARTISTS_URL}/${id}`, {
     headers: { Authorization: `Bearer ${accessToken}` },
   });
-  console.log('[SPOTIFY RAW ARTIST]', artistResponse.data); 
-
   let topTracks = [];
   try {
     const topTracksResponse = await axios.get(`${SPOTIFY_ARTISTS_URL}/${id}/top-tracks`, {
