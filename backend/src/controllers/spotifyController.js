@@ -33,7 +33,6 @@ module.exports = {
         return response.status(400).json({ error: 'Query parameters "type" and "id" are required' });
       }
 
-      console.log('[DETAILS ENDPOINT]', { type, id });
       const payload = await getSpotifyDetail(request.spotifyAuth.accessToken, type, id);
       return response.json({ success: true, ...payload });
     } catch (error) {

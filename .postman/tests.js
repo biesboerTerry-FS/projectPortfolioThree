@@ -1,19 +1,3 @@
-/*
-Postman setup for Music Search Portfolio routes.
-
-Required Postman environment variables:
-- baseUrl (example: http://127.0.0.1:3001)
-- apiPrefix (example: /api/v42)
-- jwt (empty initially; set after OAuth callback response)
-- spotifyCode (manual one-time auth code from Spotify callback URL)
-- googleCode (manual one-time auth code from Google callback URL)
-
-Optional variables set by scripts:
-- lastResponseStatus
-- lastNoResults
-- firstTrackSpotifyUrl
-*/
-
 const Scripts = {
   common: `
 pm.test("Response status is success", function () {
@@ -80,43 +64,5 @@ const body = pm.response.json();
 pm.environment.set("lastNoResults", String(body.noResults));
 `,
 };
-
-/*
-Collection request definitions (copy each into Postman):
-
-1) GET {{baseUrl}}/
-   Tests tab: Scripts.common
-
-2) GET {{baseUrl}}{{apiPrefix}}/status
-   Tests tab: Scripts.common + Scripts.status
-
-3) GET {{baseUrl}}{{apiPrefix}}/auth/spotify/login
-   This redirects to Spotify OAuth.
-
-4) GET {{baseUrl}}{{apiPrefix}}/auth/google/login
-   This redirects to Google OAuth.
-
-5) GET {{baseUrl}}{{apiPrefix}}/auth/spotify/callback?code={{spotifyCode}}
-   Tests tab: Scripts.common + Scripts.oauthCallback
-
-6) GET {{baseUrl}}{{apiPrefix}}/auth/google/callback?code={{googleCode}}
-   Tests tab: Scripts.common + Scripts.oauthCallback
-
-7) GET {{baseUrl}}{{apiPrefix}}/auth/me
-   Headers: Authorization: Bearer {{jwt}}
-   Tests tab: Scripts.common + Scripts.me
-
-8) GET {{baseUrl}}{{apiPrefix}}/spotify/player-token
-   Headers: Authorization: Bearer {{jwt}}
-   Tests tab: Scripts.common + Scripts.playerToken
-
-9) GET {{baseUrl}}{{apiPrefix}}/search?q=daft%20punk&type=track&limit=10
-   Headers: Authorization: Bearer {{jwt}}
-   Tests tab: Scripts.common + Scripts.searchResults
-
-10) GET {{baseUrl}}{{apiPrefix}}/search?q=zzzzzzzzzzzzzzzzzzzz&type=track&limit=5
-    Headers: Authorization: Bearer {{jwt}}
-    Tests tab: Scripts.common + Scripts.searchNoResults
-*/
 
 module.exports = Scripts;

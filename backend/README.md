@@ -1,70 +1,66 @@
-# Backend Spotify OAuth + Search API (Week 2)
+# Backend API — Spotify OAuth & catalog
+
+Node.js (Express) + MongoDB backend for the portfolio Spotify integration. All JSON APIs are mounted under **`/api/v42`**.
+
+## Stack
+
+- Express 5, Mongoose, JWT auth  
+- Spotify OAuth (authorization code + refresh tokens stored per user)  
+- Axios for Spotify Web API calls  
 
 ## Architecture
-- Decoupled backend service using Node.js + Express + MongoDB (Mongoose).
-- All versioned API routes are prefixed with `/api/v42`.
-- JWT-based authorization gates protected Spotify routes.
-- Modular backend layering for portfolio review:
-  - `src/routes` for route registration
-  - `src/controllers` for HTTP handlers
-  - `src/services` for business logic and provider orchestration
 
-## Step 1: Spotify OAuth + JWT Persistence
-- Spotify OAuth implemented under `/api/v42/auth/...`.
-- `User` model stores profile data for Spotify provider:
-  - root identity fields (`email`, `displayName`)
-  - provider-specific data (`spotify`)
-  - session state (`sessions[]`)
-- OAuth login includes request `state` protection and callback validation.
-- Option A persistence pattern:
-  - Spotify `refreshToken` is persisted in MongoDB
-  - frontend receives short-lived JWT
-  - backend refreshes Spotify access tokens using stored refresh token
-- Protected identity check:
-  - `GET /api/v42/auth/me`
+- **`src/routes`** — route registration  
+- **`src/controllers`** — HTTP handlers  
+- **`src/services`** — Spotify and catalog logic  
+- **`src/middleware`** — OAuth state, JWT, Spotify token refresh  
 
-## Step 2: Spotify REST API Integration
-- Added versioned search proxy endpoint:
-  - `GET /api/v42/search?q=...&type=track&limit=10`
-- Added Spotify library endpoints:
-  - `GET /api/v42/spotify/favorites?limit=10` (saved tracks)
-- Behavior:
-  - Requires valid JWT (forces login before search)
-  - Validates stored Spotify authorization before protected Spotify requests
-  - Refreshes Spotify access token on-demand using persisted Spotify refresh token
-  - Proxies Spotify Search API response
-  - Returns UI-friendly transformed items with:
-    - `title`, `artist`, `album`, `image`
-    - `spotifyUrl`
-    - `external_urls.spotify`
-- No-results contract:
-  - `success: true`
-  - `noResults: true`
-  - `message`
-  - `items: []`
+Protected Spotify routes require a valid JWT **and** a linked Spotify account (refresh token on the user).
 
-## Player Support
-- Spotify scopes include Web Playback and library permissions.
-- Player token endpoint:
-  - `GET /api/v42/spotify/player-token`
-- OAuth scope additions for playback/library:
-  - `user-library-read`
+## Endpoints
 
-## Step 4: REST Client API Documentation
-- Added `backend/requests.http` with requests for:
-  - health check
-  - OAuth login route
-  - auth/me
-  - auth/session-status
-  - auth/refresh (Spotify access token refresh)
-  - player token
-  - favorites (saved tracks)
-  - search (results + no-results)
-- Added `.postman/collection.json` as a ready-to-import collection.
-- Jest and related test files were removed so VS Code REST Client is the single API testing workflow.
+Paths below are relative to your server origin (for example `http://127.0.0.1:3001`). Full paths always include the **`/api/v42`** prefix.
 
-## Environment Variables
-Copy `.env.dist` to `.env` and provide:
+### Public
+
+| Method | Path | Purpose |
+|--------|------|---------|
+| GET | `/api/v42/` | Plain-text server banner |
+| GET | `/api/v42/status` | Health JSON (`status`, `message`) |
+| GET | `/api/v42/landing-catalog` | Landing-page catalog (songs, artists, albums) |
+| GET | `/api/v42/auth/spotify/login` | Start Spotify OAuth (redirect) |
+| GET | `/api/v42/auth/spotify/callback` | OAuth callback (returns JWT payload for the frontend) |
+
+### Authenticated (JWT `Authorization: Bearer`)
+
+| Method | Path | Purpose |
+|--------|------|---------|
+| GET | `/api/v42/auth/me` | Current user profile |
+| GET | `/api/v42/auth/session-status` | Session / Spotify link status |
+| POST | `/api/v42/auth/refresh` | Refresh Spotify access token via stored refresh token |
+
+### Spotify integration (JWT + linked Spotify account)
+
+| Method | Path | Purpose |
+|--------|------|---------|
+| GET | `/api/v42/spotify/player-token` | Short-lived token for Web Playback SDK |
+| GET | `/api/v42/spotify/favorites?limit=` | Saved tracks |
+| GET | `/api/v42/spotify/details?type=&id=` | Track, artist, or album detail (`type`: `track` \| `artist` \| `album`) |
+| POST | `/api/v42/spotify/play` | Body: `{ uri, deviceId? }` |
+| POST | `/api/v42/spotify/pause` | Body: `{ deviceId? }` |
+| GET | `/api/v42/search?q=&type=&limit=` | Search (`type`: e.g. `track`, `artist`) |
+
+No-results search contract: `success: true`, `noResults: true`, `message`, `items: []`.
+
+## Local testing
+
+- **`backend/requests.http`** — VS Code REST Client requests (variables: `baseUrl`, `apiPrefix`, `jwt`).  
+- **`.postman/`** — optional Postman collection and script snippets.  
+- **Tests:** `npm test` runs Jest (`backend/tests/endpoints.test.js`) against the mounted Express app.
+
+## Environment
+
+Copy `.env.dist` to `.env` and set:
 
 ```bash
 PORT=3001
@@ -77,13 +73,12 @@ JWT_SECRET=
 JWT_EXPIRES_IN=7d
 ```
 
-## Assignment Evidence
-- Spotify account signup and Spotify developer dashboard setup were completed outside the repo.
-- The provided dashboard screenshot confirms the developer app exists and is configured in Spotify for Developers.
-
 ## Run
+
 ```bash
 npm install
 npm test
 npm start
 ```
+
+Spotify dashboard configuration (redirect URI, client ID/secret) is managed in Spotify for Developers outside this repo.
