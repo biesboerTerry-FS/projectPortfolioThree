@@ -9,7 +9,8 @@ import './App.css';
 import Login from './Login';
 import ProtectedRoute from './ProtectedRoute';
 
-const BACKEND_URL = import.meta.env.VITE_BACKEND_URL || 'http://127.0.0.1:3001';
+const BACKEND_URL =
+  import.meta.env.VITE_BACKEND_URL ?? 'http://127.0.0.1:3001';
 const API_PREFIX = '/api/v42';
 const SEARCH_HISTORY_KEY = 'search_history_v1';
 const PLAY_SUGGESTIONS_KEY = 'play_suggestions_v1';

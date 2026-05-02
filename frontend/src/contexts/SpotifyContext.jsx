@@ -2,7 +2,8 @@ import React, { createContext, useContext, useCallback, useRef, useState } from 
 
 const SpotifyContext = createContext(null);
 
-const BACKEND_URL = import.meta.env.VITE_BACKEND_URL || 'http://127.0.0.1:3001';
+const BACKEND_URL =
+  import.meta.env.VITE_BACKEND_URL ?? 'http://127.0.0.1:3001';
 const API = '/api/v42';
 
 const CACHE_TTL = 1000 * 60 * 5;

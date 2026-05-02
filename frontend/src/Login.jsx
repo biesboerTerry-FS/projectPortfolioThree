@@ -12,7 +12,8 @@ function SpotifyIcon() {
 }
 
 function Login({ onSpotifyLogin }) {
-  const BACKEND_URL = import.meta.env.VITE_BACKEND_URL || 'http://127.0.0.1:3001';
+  const BACKEND_URL =
+    import.meta.env.VITE_BACKEND_URL ?? 'http://127.0.0.1:3001';
   const API_PREFIX = '/api/v42';
 
   const handleSpotifyLogin = () => {
